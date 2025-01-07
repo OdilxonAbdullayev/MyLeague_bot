@@ -1,9 +1,11 @@
 package processor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
 
+@Slf4j
 public abstract class ProcessorFactory {
     private static final List<AbstractProcessor> processors = List.of(
             new CallBackDataProcessor(),
@@ -17,7 +19,8 @@ public abstract class ProcessorFactory {
                 return processor;
             }
         }
-        throw new RuntimeException("Processor not supported for update %s ".formatted(update.toString()));
+        log.error("Processor not supported for update %s ".formatted(update.toString()));
+        return null;
     }
 
 }

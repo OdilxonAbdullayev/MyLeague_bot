@@ -1,6 +1,7 @@
 package bot;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import processor.AbstractProcessor;
@@ -10,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+@Slf4j
 public class MyBot extends TelegramLongPollingBot {
     private final String botUserName;
     private final String botToken;
@@ -18,12 +20,13 @@ public class MyBot extends TelegramLongPollingBot {
         Properties properties = new Properties();
         try {
             properties.load(new FileReader("src/main/resources/application.properties"));
-            botUserName = properties.getProperty("quiz-bot.telegram.bot.username");
-            botToken = properties.getProperty("quiz-bot.telegram.bot.token");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {;
+            log.info(e.getMessage());
         }
+        botUserName = properties.getProperty("quiz-bot.telegram.bot.username");
+        botToken = properties.getProperty("quiz-bot.telegram.bot.token");
     }
+
 
     @SneakyThrows
     @Override

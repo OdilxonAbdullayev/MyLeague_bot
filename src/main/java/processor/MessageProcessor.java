@@ -3,6 +3,7 @@ package processor;
 import bot.CallBackDataValue;
 import bot.MessageBuilder;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
@@ -10,7 +11,6 @@ import org.telegram.telegrambots.meta.api.methods.send.*;
 import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import user.User;
 import user.UserRole;
 import user.UserState;
@@ -18,6 +18,7 @@ import user.UserState;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 public class MessageProcessor extends AbstractProcessor {
     private static String firstName;
 
@@ -230,8 +231,8 @@ public class MessageProcessor extends AbstractProcessor {
             }
             try {
                 sender.execute(MessageBuilder.endMethod(allUser.get(i).getId(), text));
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
+            } catch (Exception e) {
+                log.error(e.getMessage());
             }
         }
     }

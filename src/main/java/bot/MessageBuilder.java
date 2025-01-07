@@ -13,10 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import user.User;
 import user.UserRole;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class MessageBuilder {
     private static final String my_id = "7306026253";
@@ -196,7 +193,7 @@ public class MessageBuilder {
     public static SendPhoto sendPhotoToTeacher(User user, String teacherId, List<PhotoSize> photoSize) {
         PhotoSize largestPhoto = photoSize.stream()
                 .max(Comparator.comparingInt(PhotoSize::getFileSize))
-                .orElseThrow(() -> new IllegalArgumentException("Hech qanday foto topilmadi!"));
+                .orElseThrow(() -> new NoSuchElementException("Hech qanday foto topilmadi!"));
 
         String fileId = largestPhoto.getFileId();
         InputFile inputFile = new InputFile(fileId);
