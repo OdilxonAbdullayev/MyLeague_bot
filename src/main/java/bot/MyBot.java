@@ -6,9 +6,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import processor.AbstractProcessor;
 import processor.ProcessorFactory;
-
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 @Slf4j
@@ -17,12 +15,17 @@ public class MyBot extends TelegramLongPollingBot {
     private final String botToken;
 
     {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("application.properties");
+        if (inputStream == null) {
+            log.error("application.properties fayli topilmadi!");
+        }
         Properties properties = new Properties();
         try {
-            properties.load(new FileReader("src/main/resources/application.properties"));
-        } catch (Exception e) {;
-            log.info(e.getMessage());
+            properties.load(inputStream);
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
+
         botUserName = properties.getProperty("quiz-bot.telegram.bot.username");
         botToken = properties.getProperty("quiz-bot.telegram.bot.token");
     }
